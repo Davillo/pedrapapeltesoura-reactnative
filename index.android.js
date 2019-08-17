@@ -1,5 +1,12 @@
-import React, { Component } from "react";
-import { AppRegistry, Text, View, Button } from "react-native";
+import React, { Component, Stylesheet } from "react";
+import {
+  AppRegistry,
+  Text,
+  View,
+  Button,
+  Image,
+  StyleSheet
+} from "react-native";
 
 class app3 extends Component {
   constructor(props) {
@@ -56,8 +63,6 @@ class app3 extends Component {
       if (pcChoice == "papel") result = "empate";
     }
 
-    alert(result);
-
     this.setState({
       userChoice: userChoice,
       computerChoice: pcChoice,
@@ -68,30 +73,111 @@ class app3 extends Component {
   render() {
     return (
       <View>
-        <Text>Escolha do computador: {this.state.computerChoice}</Text>
-        <Text>Escolha do Usuario: {this.state.userChoice}</Text>
-        <Text>Resultado: {this.state.result}</Text>
-        <Button
-          onPress={() => {
-            this.rockPaperScissors("pedra");
-          }}
-          title="Pedra"
-        />
-        <Button
-          onPress={() => {
-            this.rockPaperScissors("papel");
-          }}
-          title="Papel"
-        />
-        <Button
-          onPress={() => {
-            this.rockPaperScissors("tesoura");
-          }}
-          title="Tesoura"
-        />
+        <Topo />
+
+        <View style={styles.actionPanel}>
+          <View style={styles.btnChoose}>
+            <Button
+              onPress={() => {
+                this.rockPaperScissors("pedra");
+              }}
+              title="Pedra"
+            />
+          </View>
+
+          <View style={styles.btnChoose}>
+            <Button
+              onPress={() => {
+                this.rockPaperScissors("papel");
+              }}
+              title="Papel"
+            />
+          </View>
+
+          <View style={styles.btnChoose}>
+            <Button
+              onPress={() => {
+                this.rockPaperScissors("tesoura");
+              }}
+              title="Tesoura"
+            />
+          </View>
+        </View>
+
+        <View style={styles.buttonContainer}>
+          <Text style={styles.txtResult}>{this.state.result}</Text>
+
+          <Icon escolha={this.state.computerChoice} jogador="Computador" />
+
+          <Icon escolha={this.state.userChoice} jogador="Usuário" />
+        </View>
       </View>
     );
   }
 }
+
+class Topo extends Component {
+  render() {
+    return (
+      <View>
+        <Image source={require("./imgs/jokenpo.png")} />
+      </View>
+    );
+  }
+}
+
+class Icon extends Component {
+  render() {
+    if (this.props.escolha == "pedra") {
+      return (
+        <View>
+          <Text style={styles.icon}>{this.props.jogador}</Text>
+          <Image source={require("./imgs/pedra.png")} />
+        </View>
+      );
+    } else if (this.props.escolha == "papel") {
+      return (
+        <View>
+          <Text style={styles.icon}>{this.props.jogador}</Text>
+          <Image source={require("./imgs/papel.png")} />
+        </View>
+      );
+    } else if (this.props.escolha == "tesoura") {
+      return (
+        <View>
+          <Text style={styles.icon}>{this.props.jogador}</Text>
+          <Image source={require("./imgs/tesoura.png")} />
+        </View>
+      );
+    } else {
+      return false;
+    }
+  }
+}
+
+const styles = StyleSheet.create({
+  btnChoose: {
+    width: 90
+  },
+  actionPanel: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20
+  },
+  buttonContainer: {
+    alignItems: "center",
+    marginTop: 30
+  },
+  txtResult: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "red",
+    height: 60,
+    alignSelf: "center"
+  },
+  icon: {
+    alignSelf: "center"
+  }
+});
 
 AppRegistry.registerComponent("app3", () => app3);
